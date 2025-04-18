@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Dashboard</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <style>
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: #F5F7FA;
+        color: #1A1A1A;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Header */
+    header {
+        background: linear-gradient(90deg, #4A90E2, #50E3C2);
+        color: white;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: background 0.3s ease;
+        animation: slideDown 0.6s ease-out;
+    }
+
+    header:hover {
+        background: linear-gradient(90deg, #50E3C2, #4A90E2);
+    }
+
+    header h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    nav ul {
+        display: flex;
+        gap: 25px;
+    }
+
+    nav ul li a {
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        transform: translateY(-5px);
+    }
+
+    /* Main Content */
+    main {
+        flex: 1;
+        padding: 60px 40px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        justify-content: center;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    h2 {
+        font-size: 36px;
+        color: #1A1A1A;
+        text-align: center;
+        font-weight: 700;
+        animation: fadeInLeft 1s ease-out;
+    }
+
+    .details-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+        justify-items: center;
+        opacity: 0;
+        animation: fadeInUp 1.2s 0.5s ease-out forwards;
+    }
+
+    /* Profile, Contract, Payment, Opportunity Card */
+    .profile, .contract, .payment, .opportunity-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 350px;
+        text-align: center;
+        position: relative;
+        border-left: 8px solid #4A90E2;
+        transition: all 0.4s ease;
+        transform: translateY(30px);
+        opacity: 0;
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+    .profile:hover, .contract:hover, .payment:hover, .opportunity-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile h3, .contract h3, .payment h3, .opportunity-card h4 {
+        font-size: 22px;
+        color: #4A90E2;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .profile p, .contract p, .payment p, .opportunity-card p {
+        font-size: 16px;
+        color: #555;
+        margin: 12px 0;
+    }
+
+    button {
+        background: #4A90E2;
+        padding: 12px 24px;
+        font-size: 16px;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        opacity: 0;
+        animation: fadeInUp 1.2s 1.2s ease-out forwards;
+    }
+
+    button:hover {
+        background: #357ABD;
+        transform: translateY(-4px);
+    }
+
+    /* Job Opportunities */
+    .opportunity-card {
+        background: #e1e81b;
+        color: white;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .opportunity-card h4 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        color: #000000;
+    }
+
+    .opportunity-card p {
+        font-size: 16px;
+    }
+
+    .opportunity-card button {
+        background: #FF6B6B;
+    }
+
+    .opportunity-card button:hover {
+        background: #E55A5A;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        margin-top: 40px;
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+    .nav-buttons button {
+        padding: 12px 25px;
+        background: #1A1A1A;
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .nav-buttons button:hover {
+        background: #333;
+        transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+        background: #1A1A1A;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 16px;
+        margin-top: auto;
+    }
+
+    /* Media Query for Responsiveness */
+    @media (max-width: 768px) {
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        nav ul {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .details-container {
+            grid-template-columns: 1fr;
+        }
+
+        .profile, .contract, .payment, .opportunity-card {
+            max-width: 90%;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .nav-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideDown {
+        0% {
+            transform: translateY(-30px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Freelancer Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Welcome to Your Freelancer Dashboard</h2>
+
+        <!-- Freelancer Profile and Contract Details -->
+        <section class="details-container">
+            <div class="profile">
+                <h3>Freelancer Profile</h3>
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Location:</strong> San Francisco, USA</p>
+                <p><strong>Skills:</strong> Web Development, Python, Blockchain</p>
+                <p><strong>Experience:</strong> 5 years</p>
+                <p><strong>Availability:</strong> Full-time</p>
+            </div>
+
+            <div class="contract">
+                <h3>Active Contract</h3>
+                <p><strong>Title:</strong> Web Development for XYZ Corp</p>
+                <p><strong>Status:</strong> Ongoing</p>
+                <p><strong>Start Date:</strong> 01/12/2024</p>
+                <p><strong>Deadline:</strong> 31/01/2025</p>
+                <button onclick="viewContractDetails()">View Details</button>
+            </div>
+
+            <div class="payment">
+                <h3>Recent Payment</h3>
+                <p><strong>Amount:</strong> $1500</p>
+                <p><strong>Status:</strong> Paid</p>
+                <p><strong>Paid On:</strong> 10/12/2024</p>
+            </div>
+        </section>
+
+        <!-- Job Opportunities Section -->
+        <section class="details-container">
+            <h2>Available Opportunities</h2>
+            <div class="opportunity-card">
+                <h4>Web Developer for ABC Inc.</h4>
+                <p><strong>Skills Required:</strong> HTML, CSS, JavaScript</p>
+                <p><strong>Pay:</strong> $2000</p>
+                <p><strong>Deadline:</strong> 15/02/2025</p>
+                <button onclick="applyForJob()">Apply</button>
+            </div>
+            <div class="opportunity-card">
+                <h4>Python Developer for DataTech</h4>
+                <p><strong>Skills Required:</strong> Python, Data Analysis</p>
+                <p><strong>Pay:</strong> $1800</p>
+                <p><strong>Deadline:</strong> 28/02/2025</p>
+                <button onclick="applyForJob()">Apply</button>
+            </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button onclick="goHome()">Home</button>
+            <button onclick="goBack()">Previous Page</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Freelance Fusion</p>
+    </footer>
+
+    <script>
+        function viewContractDetails() {
+            alert('Showing detailed contract information...');
+        }
+
+        function applyForJob() {
+            window.location.href = 'apply.html'; // Redirect to the application form page
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

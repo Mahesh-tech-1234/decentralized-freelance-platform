@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Application</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #6c7bff, #5c66f2);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            overflow: hidden;
+            animation: backgroundAnimation 10s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(135deg, #6c7bff, #5c66f2);
+            }
+            100% {
+                background: linear-gradient(135deg, #4a90e2, #2962ff);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            text-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .apply-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .apply-form input,
+        .apply-form textarea {
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            background-color: #f7f7f7;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .apply-form input:focus,
+        .apply-form textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+            background-color: #ffffff;
+        }
+
+        .apply-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .apply-form button {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apply-form button:hover {
+            background: linear-gradient(145deg, #2980b9, #3498db);
+            transform: translateY(-5px);
+        }
+
+        .apply-form button:active {
+            transform: translateY(1px);
+        }
+
+        .apply-form button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: ripple 0.6s linear;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes ripple {
+            100% {
+                width: 0;
+                height: 0;
+                opacity: 0;
+            }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                padding: 30px;
+                width: 100%;
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Freelancer Application</h1>
+    </header>
+
+    <main class="apply-form">
+        <h2>Apply Now</h2>
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="a6cbd4d6-616a-4ea2-90e2-7171d05c4aae">
+
+            <!-- Add 'name' attributes to input fields -->
+            <input type="text" id="freelancerName" name="freelancerName" placeholder="Your Name" required>
+            <input type="email" id="freelancerEmail" name="freelancerEmail" placeholder="Your Email" required>
+            <textarea id="freelancerDetails" name="freelancerDetails" placeholder="Briefly describe your experience and skills" required></textarea>
+
+            <!-- Update the button type to 'submit' to properly submit the form -->
+            <button type="submit">Submit Application</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Freelancer Hub | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Optional: you can keep this function for redirecting after submission
+        document.querySelector("form").addEventListener("submit", function() {
+            alert('Your application has been submitted!');
+            window.location.href = 'dashboard.html'; // Redirect after submission
+        });
+    </script>
+
+</body>
+
+
+
+</html>

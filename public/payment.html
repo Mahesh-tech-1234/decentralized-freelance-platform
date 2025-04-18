@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Payment</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.10.0/web3.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0f2027;
+            --secondary-dark: #203a43;
+            --accent-green: #7ee646;
+            --blockchain-blue: #4ca1af;
+            --neon-green: #39ff14;
+            --transparent-dark: rgba(15, 32, 39, 0.8);
+        }
+        
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--blockchain-blue) var(--primary-dark);
+        }
+        
+        body {
+            font-family: 'Space Grotesk', 'Roboto Mono', monospace;
+            background: linear-gradient(
+                45deg, 
+                var(--primary-dark), 
+                var(--secondary-dark), 
+                #2c5364
+            );
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            color: #e0e0e0;
+            margin: 0;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        header {
+            background: var(--transparent-dark);
+            border: 2px solid var(--blockchain-blue);
+            border-radius: 15px;
+            text-align: center;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            transform: translateZ(50px);
+            box-shadow: 0 10px 30px rgba(76, 161, 175, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin: 20px auto;
+            max-width: 900px;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                transparent 0,
+                rgba(76, 161, 175, 0.05) 5px,
+                transparent 10px
+            );
+            animation: backgroundScan 10s linear infinite;
+        }
+        
+        @keyframes backgroundScan {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        main {
+            background: var(--transparent-dark);
+            border: 3px solid var(--blockchain-blue);
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 50px;
+            transform-style: preserve-3d;
+            transform: rotateX(10deg);
+            transition: all 0.5s ease;
+            box-shadow: 0 15px 50px rgba(76, 161, 175, 0.3);
+        }
+        
+        main:hover {
+            transform: rotateX(0);
+            box-shadow: 0 20px 60px rgba(76, 161, 175, 0.4);
+        }
+        
+        h1, h2 {
+            color: var(--neon-green);
+            text-shadow: 
+                0 0 10px var(--neon-green),
+                0 0 20px var(--blockchain-blue);
+            letter-spacing: 2px;
+            position: relative;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        
+        h1::after, h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(
+                to right, 
+                var(--blockchain-blue), 
+                var(--neon-green)
+            );
+        }
+        
+        input, select {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--blockchain-blue);
+            color: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: relative;
+            font-size: 1.2rem;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 
+                0 0 15px var(--neon-green),
+                0 0 25px var(--blockchain-blue);
+            transform: scale(1.02);
+        }
+        
+        button {
+            background: var(--blockchain-blue);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg, 
+                transparent, 
+                rgba(255,255,255,0.3), 
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        .dynamic-styling {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .dynamic-styling button {
+            background: var(--neon-green);
+            color: var(--primary-dark);
+            border: 2px solid var(--blockchain-blue);
+            font-size: 1.1rem;
+            padding: 12px 25px;
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                margin: 20px;
+                padding: 30px;
+                transform: none;
+            }
+        
+            h1, h2 {
+                font-size: 2rem;
+            }
+        
+            input, select {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        
+            button {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+        
+            .dynamic-styling button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Decentralized freelancing platform (FREELANCE FUSION)</h2>
+        <h1>Blockchain Payment Integration</h1>
+    </header>
+    <main>
+        <h1>Make a Payment</h1>
+        <form id="paymentForm">
+            <label for="receiverAddress">Receiver Wallet Address:</label>
+            <input type="text" id="receiverAddress" placeholder="Enter recipient's wallet address" required>
+
+            <label for="amount">Amount (ETH):</label>
+            <input type="number" id="amount" placeholder="Enter the amount in ETH" required>
+
+            <label for="paymentMethod">Select Payment Method:</label>
+            <select id="paymentMethod">
+                <option value="metamask">MetaMask</option>
+                <option value="creditcard">Credit Card</option>
+                <option value="debitcard">Debit Card</option>
+                <option value="phonepay">PhonePay</option>
+                <option value="gpay">GPay</option>
+            </select>
+
+            <button type="submit">Send Payment</button>
+        </form>
+
+        <div class="payment-options">
+            <h3>Other Payment Options</h3>
+            <div class="dynamic-styling">
+                <button onclick="web3MetaOpen()">Connect to MetaMask</button>
+                <button onclick="selectPayment('creditcard')">Credit Card</button>
+                <button onclick="selectPayment('debitcard')">Debit Card</button>
+                <button onclick="selectPayment('phonepay')">PhonePay</button>
+                <button onclick="selectPayment('gpay')">GPay</button>
+            </div>
+        </div>
+
+        <div id="statusMessage" class="success-message"></div>
+        <div id="errorMessage" class="error-message"></div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Decentralized Freelance Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const paymentForm = document.getElementById("paymentForm");
+        const statusMessage = document.getElementById("statusMessage");
+        const errorMessage = document.getElementById("errorMessage");
+        const paymentMethod = document.getElementById("paymentMethod");
+
+        // Check if MetaMask is available
+        if (typeof window.ethereum !== 'undefined') {
+            const web3 = new Web3(window.ethereum);
+
+            // Request Wallet Connection
+            async function connectWallet() {
+                try {
+                    await ethereum.request({ method: "eth_requestAccounts" });
+                    console.log("Wallet connected");
+                    statusMessage.innerText = "MetaMask connected successfully!";
+                    errorMessage.innerText = "";
+                } catch (error) {
+                    console.error("Error connecting to wallet:", error.message);
+                    errorMessage.innerText = "Error connecting to MetaMask. Please try again.";
+                    statusMessage.innerText = "";
+                }
+            }
+
+            // Handle Payment Form Submission
+            paymentForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const receiver = document.getElementById("receiverAddress").value.trim();
+                const amount = document.getElementById("amount").value.trim();
+                const method = paymentMethod.value;
+
+                if (method === "metamask") {
+                    if (!web3.utils.isAddress(receiver)) {
+                        errorMessage.innerText = "Invalid wallet address.";
+                        statusMessage.innerText = "";
+                        return;
+                    }
+
+                    try {
+                        const accounts = await web3.eth.getAccounts();
+                        if (accounts.length === 0) {
+                            throw new Error("No accounts connected. Please connect your wallet.");
+                        }
+
+                        const sender = accounts[0];
+                        const transaction = {
+                            from: sender,
+                            to: receiver,
+                            value: web3.utils.toWei(amount, "ether"),
+                            gas: 21000,
+                        };
+
+                        const txReceipt = await web3.eth.sendTransaction(transaction);
+                        statusMessage.innerText = `Transaction successful! TX Hash: ${txReceipt.transactionHash}`;
+                        errorMessage.innerText = "";
+                    } catch (error) {
+                        console.error("Transaction failed:", error.message);
+                        errorMessage.innerText = `Payment failed: ${error.message}`;
+                        statusMessage.innerText = "";
+                    }
+                } else {
+                    // Handle other payment methods (credit card, debit card, PhonePay, GPay)
+                    statusMessage.innerText = `Payment method selected: ${method}. Integration pending.`;
+                    errorMessage.innerText = "";
+                }
+            });
+
+            // Connect to MetaMask on button click
+            function web3MetaOpen() {
+                connectWallet();
+            }
+
+            // Select Payment Method
+            function selectPayment(method) {
+                paymentMethod.value = method;
+                statusMessage.innerText = `Payment method selected: ${method}.`;
+                errorMessage.innerText = "";
+            }
+        } else {
+            alert("MetaMask or another Web3 provider is required to use this feature.");
+        }
+    </script>
+</body>
+</html>
